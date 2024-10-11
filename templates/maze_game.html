@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        h1 {
+            margin-bottom: 2rem;
+        }
+        .maze {
+            display: grid;
+            gap: 2px;
+            background-color: #ddd;
+            padding: 2px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .cell {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+        .player { background-color: #ff4757; color: white; }
+        .wall { background-color: #2f3542; }
+        .path { background-color: white; }
+        .start { background-color: #2ed573; color: white; }
+        .end { background-color: #1e90ff; color: white; }
+        .controls {
+            display: flex;
+            gap: 5px;
+            margin-top: 1rem;
+        }
+        button {
+            font-family: 'JetBrains Mono', monospace;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border: none;
+            background-color: #2f3542;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #1e90ff;
+        }
+        #message {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: #2ed573;
+        }
+    </style>
+</head>
+<body>
+    <h1>Maze Explorer</h1>
+
+    <div class="maze" style="grid-template-columns: repeat({{ maze|length }}, 30px);">
+        {% for row in range(maze|length) %}
+            {% for col in range(maze[0]|length) %}
+                <div class="cell
+                    {% if [row, col] == player_pos %}player
+                    {% elif maze[row][col] == '#' %}wall
+                    {% elif maze[row][col] == 'S' %}start
+                    {% elif maze[row][col] == 'E' %}end
+                    {% else %}path
+                    {% endif %}">
+                    {% if [row, col] == player_pos %}◍
+                    {% elif maze[row][col] == 'S' %}S
+                    {% elif maze[row][col] == 'E' %}E
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+    <div id="message">
+        {% if game_over %}
+            Congratulations! You reached the end!
+        {% endif %}
+    </div>
+
+    <div class="controls">
+        <form action="{{ url_for('move') }}" method="post" style="display: contents;">
+            <button type="submit" name="direction" value="left">←</button>
+            <button type="submit" name="direction" value="up">↑</button>
+            <button type="submit" name="direction" value="down">↓</button>
+            <button type="submit" name="direction" value="right">→</button>
+        </form>
+        <form action="{{ url_for('reset') }}" method="post" style="display: contents;">
+            <button type="submit">Reset</button>
+        </form>
+    </div>
+</body>
+</html>
