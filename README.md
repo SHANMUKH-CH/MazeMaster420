@@ -4,12 +4,12 @@ A simple maze exploration game in Python.
 
 ## Getting Started
 
-Clone the repository and set up the game:
+Clone the repository and scale the application:
 
 ```shell
 git clone --branch feat/game --single-branch https://github.com/SHANMUKH-CH/MazeMaster420.git
 cd MazeMaster420
-./setup.sh
+docker-compose up --build
 ```
 
 ## Requirements
@@ -18,6 +18,8 @@ cd MazeMaster420
 
 ## Access the Game
 
-After running the setup script, click the link below to access the game:
+After running the setup script, click the links below to access the game:
 
 [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+[http://127.0.0.1:5001/](http://127.0.0.1:5001/)
+[http://127.0.0.1:5002/](http://127.0.0.1:5002/)
